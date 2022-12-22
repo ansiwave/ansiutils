@@ -68,13 +68,13 @@ proc toEsc(brush: Brush, prevBrush: Brush): string =
     return "\x1B[" & strutils.join(parts, ";") & "m"
 
 proc parseParams*(code: string): seq[int] =
-  assert code[0] == '['
-  let parts = strutils.split(code[1 ..< code.len], ";")
-  for part in parts:
-    if part == "":
-      continue
-    let num = strutils.parseInt(part)
-    result.add(num)
+  if code.len > 1 and code[0] == '[':
+    let parts = strutils.split(code[1 ..< code.len], ";")
+    for part in parts:
+      if part == "":
+        continue
+      let num = strutils.parseInt(part)
+      result.add(num)
 
 proc highColor(arCodes: seq[int]): (string, int) =
   let nCodes = arCodes.len

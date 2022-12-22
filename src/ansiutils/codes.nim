@@ -49,13 +49,13 @@ proc stripCodesIfCommand*(line: ref string): string =
   stripCodesIfCommand(line[])
 
 proc parseParams*(code: string): seq[int] =
-  assert code[0] == '['
-  let parts = strutils.split(code[1 ..< code.len], ";")
-  for part in parts:
-    if part == "":
-      continue
-    let num = strutils.parseInt(part)
-    result.add(num)
+  if code.len > 1 and code[0] == '[':
+    let parts = strutils.split(code[1 ..< code.len], ";")
+    for part in parts:
+      if part == "":
+        continue
+      let num = strutils.parseInt(part)
+      result.add(num)
 
 proc dedupeParams(params: var seq[int]) =
   # partition the params so RGB values are grouped together.
